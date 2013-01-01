@@ -160,7 +160,7 @@ void CW::Update(const datum& datum,
         wrong_weight.resize(it->first + 1, 0.0);
       wrong_weight[it->first] -= alpha * wrong_cov[it->first] * it->second;
 
-      wrong_cov[it->first] -=
+      wrong_cov[it->first] +=
         beta * it->second * it->second * correct_cov[it->first] * correct_cov[it->first];
     }
   }

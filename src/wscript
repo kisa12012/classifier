@@ -12,6 +12,7 @@ def build(bld):
                         'perceptron/averaged_perceptron.cc',
                         'passive_aggressive/pa.cc',
                         'confidence_weighted/cw.cc',
+                        'confidence_weighted/scw.cc',
                         'arow/arow.cc',
                         'subgradient/hinge.cc',
                         'subgradient/averaged_hinge.cc',

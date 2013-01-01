@@ -89,9 +89,11 @@ double SCW::CalcAlpha(double m, double v) const {
 double SCW::CalcAlpha1(double m, double v) const {
   double psi = 1.0 + phi_ * phi_ / 2.0;
   double zeta = 1 + phi_ * phi_;
+  double phi2_ = phi_*phi_;
+  double phi4_ = phi2_*phi2_;
 
   double alpha =
-    (-m * psi + std::sqrt(m*m*phi_*phi_/4.0 + v*phi_*phi_*zeta)) / (v * zeta);
+    (-m * psi + std::sqrt(m*m*phi4_/4.0 + v*phi2_*zeta)) / (v * zeta);
   if (alpha <= 0.0) return 0.0;
   if (alpha >= C_) return C_;
   return alpha;
@@ -101,8 +103,8 @@ double SCW::CalcAlpha2(double m, double v) const {
   double n = v + 1.0 / (2.0 * C_);
   double gamma = phi_ * std::sqrt(phi_*phi_*m*m*v*v + 4*n*v*(n+v*phi_*phi_));
   double alpha = - (2.0 * m * n + phi_ * phi_ * m * v) + gamma;
+  alpha /= ( 2.0 * (n*n + n*v*phi_*phi_) );
   if (alpha <= 0.0) return 0.0;
-  alpha /= 2.0 * (n*n + n*v*phi_*phi_);
   return alpha;
 }
 
@@ -149,7 +151,7 @@ void SCW::Update(const datum& datum,
         wrong_weight.resize(it->first + 1, 0.0);
       wrong_weight[it->first] -= alpha * wrong_cov[it->first] * it->second;
 
-      wrong_cov[it->first] -=
+      wrong_cov[it->first] +=
         beta * it->second * it->second * correct_cov[it->first] * correct_cov[it->first];
     }
   }
